@@ -1,7 +1,8 @@
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# keyboard = [[KeyboardButton(text="...")]]
-# kb_markup = ReplyKeyboardMarkup(
-#     resize_keyboard=True, 
-#     one_time_keyboard=True,
-#     keyboard=keyboard
-# )
+
+plant_kb = InlineKeyboardMarkup(
+    inline_keyboard=[[
+        InlineKeyboardButton(text = "ℹ️ Details", callback_data="get_plant_details"),
+    ]],
+)
