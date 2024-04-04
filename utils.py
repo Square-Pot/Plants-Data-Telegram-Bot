@@ -17,7 +17,7 @@ def make_plant_message(plant: pandas.core.series.Series) -> str:
     if hasattr(plant, 'variety'):
         msg_list.append('var.')
         msg_list.append(hitalic(plant.variety))
-    if hasattr(plant, 'cultivar'):
-        msg_list.append(f"\ncv. `{plant.cultivar}`")
+    if hasattr(plant, 'cultivated_variety'):
+        msg_list.append(f"\ncv. `{plant.cultivated_variety}`")
     msg = text(*msg_list)
     return msg

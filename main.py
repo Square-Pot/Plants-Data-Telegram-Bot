@@ -27,6 +27,14 @@ dh = DataHandler(gss_key)
 async def send_random_value(callback: CallbackQuery):
     await callback.message.answer('Plant details will be here...')
     await callback.answer()
+
+
+@dp.callback_query(F.data == "show_last_photo")
+async def send_random_value(callback: CallbackQuery):
+    await callback.message.answer('Photo will be here...')
+    await callback.answer()
+    
+ 
     
     
 @dp.message(Command(commands=['find']))
@@ -34,10 +42,10 @@ async def command_open_handler(message: Message, command) -> None:
     if message.from_user.id == owner_id:
         request = command.args
         plants = dh.search_str(request.strip())
-        if plants.empty:
+        if plants.shape[0] == 0:
             await message.answer("Sorry, no plants was found.")
             return
-        if len(plants) > 10: 
+        if len(plants.index) > 10: 
             await message.answer(f"Here are the first 10 results from { len(plants) }:")
             plants = plants[:10]
         for i, plant in plants.iterrows():
