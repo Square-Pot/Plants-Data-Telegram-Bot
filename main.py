@@ -13,6 +13,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram import F
 from aiogram.utils.markdown import hcode
 from aiogram.types import BufferedInputFile
+from aiogram.filters.callback_data import CallbackData
 
 import credentials
 from data import DataHandler
@@ -27,9 +28,12 @@ dp = Dispatcher()
 dh = DataHandler(gss_key)
 
 
+class PlantCallback(CallbackData, prefix="plant"):
+    uid: str
+
 @dp.callback_query(F.data == "get_plant_details")
-async def reply_plant_details(callback: CallbackQuery):
-    await callback.message.answer('Plant details will be here...')
+async def reply_plant_details(callback: CallbackQuery, callback_data: PlantCallback):
+    await callback.message.answer(f'Plant {callback_data.uid} details will be here...')
     await callback.answer()
 
 
@@ -55,7 +59,9 @@ async def command_find_handler(message: Message, command) -> None:
         await message.answer(f"Here are the first 5 results from { len(plants) }. Use { hcode('/findall') } command")
         plants = plants[:RESULT_PLANTS_LIMIT]
     for i, plant in plants.iterrows():
-        await message.answer(make_plant_message(plant), reply_markup=kb.plant_kb)
+        keyb = kb.plant_kb
+        keyb.inline_keyboard[0][0].callback_data = PlantCallback(uid=plant.uid).pack()  
+        await message.answer(make_plant_message(plant), reply_markup=keyb)
     logging.info(f"Find request: { request }, results: {len(plants)}")
 
 

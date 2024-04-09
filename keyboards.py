@@ -7,3 +7,5 @@ plant_kb = InlineKeyboardMarkup(
         InlineKeyboardButton(text = "📷 Last photo", callback_data="show_last_photo"),
     ]],
 )
+
+
