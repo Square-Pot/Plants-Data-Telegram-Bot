@@ -1,6 +1,17 @@
-
+import datetime
+import humanize
 from pandas.core.series import Series
 from aiogram.utils.markdown import hbold, hcode, text, hitalic
+
+
+def get_age(plant) -> str:
+    if hasattr(plant, 'seeding_date'):
+        age = datetime.datetime.now() - plant.seeding_date    
+        return humanize.precisedelta(age, minimum_unit="months") + (' from seeding')
+    if hasattr(plant, 'purchase_date'):
+        age = datetime.datetime.now() - plant.seeding_date
+        return humanize.precisedelta(age, minimum_unit="months") + (' from puchase')
+    return None
 
 
 def make_plant_message(plant: Series) -> str:
@@ -19,6 +30,13 @@ def make_plant_message(plant: Series) -> str:
         msg_list.append(hitalic(plant.variety))
     if hasattr(plant, 'cultivated_variety'):
         msg_list.append(f"\ncv. `{plant.cultivated_variety}`")
+    if hasattr(plant, 'source'):
+        msg_list.append(hbold("\nSource: "))
+        msg_list.append(f"{ plant.source }\n")
+    age = get_age(plant)
+    if age: 
+        msg_list.append(hbold("\nAge: "))
+        msg_list.append(age)
     msg = text(*msg_list)
     return msg
 

@@ -83,7 +83,7 @@ async def command_findall_handler(message: Message, command) -> None:
         
 
 
-@dp.message(Command(commands=['plant',]))
+@dp.message(Command(commands=['plant', 'uid',]))
 async def command_get_plant_handler(message: Message, command) -> None:  
     if message.from_user.id != owner_id:
         await message.answer("Sorry, this is personal bot")
