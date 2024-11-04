@@ -9,11 +9,15 @@ from aiogram.types import Message
 logger = logging.getLogger(__name__)
 
 
-def get_age(plant) -> str:
+def get_age(plant) -> str | None:
     if hasattr(plant, 'seeding_date'):
+        if not isinstance(plant.seeding_date, datetime.datetime):
+            return f"Can't calculate age, cause seeding date is not a datetime object: {plant.seeding_date}"
         age = datetime.datetime.now() - plant.seeding_date    
         return humanize.precisedelta(age, minimum_unit="months", format='%0.0f') + (' from seeding')
     if hasattr(plant, 'purchase_date'):
+        if not isinstance(plant.purchase_date, datetime.datetime):
+            return f"Can't calculate age, cause purchase date is not a datetime object: {plant.purchase_date}"
         age = datetime.datetime.now() - plant.purchase_date
         return humanize.precisedelta(age, minimum_unit="months", format='%0.0f') + (' from puchase')
     return None
