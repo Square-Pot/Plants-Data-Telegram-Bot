@@ -14,7 +14,7 @@ def get_age(plant) -> str:
         age = datetime.datetime.now() - plant.seeding_date    
         return humanize.precisedelta(age, minimum_unit="months", format='%0.0f') + (' from seeding')
     if hasattr(plant, 'purchase_date'):
-        age = datetime.datetime.now() - plant.seeding_date
+        age = datetime.datetime.now() - plant.purchase_date
         return humanize.precisedelta(age, minimum_unit="months", format='%0.0f') + (' from puchase')
     return None
 
