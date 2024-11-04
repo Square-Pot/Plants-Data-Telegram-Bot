@@ -1,0 +1,10 @@
+[Service]
+WorkingDirectory=/home/dntx/projects/Plants-Data-Telegram-Bot
+User=dntx
+VIRTUAL_ENV=/home/dntx/projects/Plants-Data-Telegram-Bot/venv
+Environment=PATH=$VIRTUAL_ENV/bin:$PATH
+ExecStart=/home/dntx/projects/Plants-Data-Telegram-Bot/venv/bin main.py
+
+[Install]
+WantedBy=multi-user.target
+EOF
