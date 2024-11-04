@@ -1,7 +1,12 @@
 import datetime
+import logging
 import humanize
 from pandas.core.series import Series
 from aiogram.utils.markdown import hbold, hcode, text, hitalic
+from aiogram.types import Message
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_age(plant) -> str:
@@ -102,3 +107,10 @@ def plant_to_str(plant: Series) -> str:
     return result.strip()
 
 
+
+async def is_owner(message: Message, owner_id: int) -> bool:
+    if message.from_user and message.from_user.id != owner_id:
+        await message.answer(f"Sorry, this is personal bot. Your id: {message.from_user.id}, owner_id: {owner_id}")
+        logger.info(f"Stranger try: {message.from_user.full_name} (id: {message.from_user.id})")
+        return False
+    return True
