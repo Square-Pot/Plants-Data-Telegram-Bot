@@ -13,4 +13,4 @@ In this implementation Google Spreadsheet is using as data source.
 * `/plant`, `/uid` -  get detailed information about plant by uid
 * `/genus_stat` - get stat of gesnuses or species. For specties genus name should be passed. 
 
-*****
+******
