@@ -8,12 +8,15 @@ from aiogram.types import BufferedInputFile
 
 from callbacks import PlantCallback
 from utils import make_plant_message, is_owner, plant_to_str
+import messages
 
 logger = logging.getLogger(__name__)
 
 
-async def start_handler(message: Message) -> None:  
-    await message.answer("Sorry, this is personal bot (hello from handler)")
+async def start_handler(message: Message, owner_id) -> None:  
+    if not await is_owner(message, owner_id):
+        await message.answer("Sorry, this is personal bot (hello from handler)")
+    await message.answer(messages.HELP_MESSAGE)
     
 async def find_handler(message: Message, command, owner_id, datahandler, keyboard, result_plants_limit=5) -> None:    
     if not await is_owner(message, owner_id):

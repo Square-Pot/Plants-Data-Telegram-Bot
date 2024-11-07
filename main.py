@@ -12,7 +12,6 @@ from aiogram.types import Message
 
 
 from data import DataHandler
-from utils import make_plant_message, plant_to_str
 import keyboards as kb
 import handlers 
 import filters 
@@ -25,7 +24,10 @@ owner_id = int(credentials.OWNER_USER_ID)
 dp = Dispatcher()
 dh = DataHandler(gss_key)
 
-dp.message.register(handlers.start_handler, filters.start_filter)
+dp.message.register(
+    partial(handlers.start_handler, owner_id=owner_id), 
+    filters.start_filter
+)
 dp.message.register(
     partial(handlers.find_handler, owner_id=owner_id, datahandler=dh, keyboard=kb.plant_kb), 
     filters.find_filter
